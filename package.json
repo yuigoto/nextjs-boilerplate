@@ -4,7 +4,14 @@
   "description": "Boilerplate for projects using React/Next.JS, with a custom server using Express.",
   "main": "server.js",
   "sideEffects": false,
-  "scripts": {},
+  "scripts": {
+    "dev": "node server.js",
+    "dev:next": "next dev",
+    "build": "set NODE_ENV=production && next build",
+    "start": "set NODE_ENV=production && node server.js",
+    "start:next": "next start",
+    "export": "next export"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yuigoto/nextjs-boilerplate.git"

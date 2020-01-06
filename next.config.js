@@ -83,8 +83,8 @@ const nextConfig = {
    */
   env: {
     HOST: process.env.HOST,
-    NODE_ENV: process.env.NODE_ENV,
-    PORT: procesS.env.PORT
+    ENV: process.env.NODE_ENV,
+    PORT: process.env.PORT
   },
 
   /**

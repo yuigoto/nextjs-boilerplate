@@ -17,7 +17,7 @@ const path = require("path");
 // ----------------------------------------------------------------------
 
 // Routes applied here take the path supplied as root ("/")
-const test = require("routes/test");
+const test = require("./routes/test");
 
 // APPLIYING
 // ----------------------------------------------------------------------

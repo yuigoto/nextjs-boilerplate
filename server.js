@@ -21,7 +21,7 @@ const compression = require("compression");
 // FLAGS
 // ----------------------------------------------------------------------
 const dev = (process.env.NODE_ENV === "production");
-const port = process.env.PORT || 6000;
+const port = process.env.PORT || 3456;
 
 // HANDLERS
 // ----------------------------------------------------------------------
@@ -51,10 +51,10 @@ const executionHandler = () => {
   server.listen(port, (err) => {
     if (err) throw err;
 
-    let url = HOST;
+    let url = process.env.HOST;
 
     log(
-      chalk.cyan(`> Executando em http://${url}:${port}`);
+      chalk.cyan(`> Executando em http://${url}:${port}`)
     );
   });
 };
