@@ -1,6 +1,7 @@
 /**
  * next.config
  * ----------------------------------------------------------------------
+ * Configuration file for Next, Next modules and Webpack.
  * 
  * @author    Fabio Y. Goto <lab@yuiti.dev>
  * @since     0.0.1
@@ -43,6 +44,15 @@ const nextConfig = {
   cssLoaderOptions: {
     importLoaders: 1,
     getLocalIdent: (loaderContext, _, localName) => {
+      const fileName = path.basename(loaderContext.resourcePath);
+
+      if (/\.module\.css$/.test(fileName)) {
+        const name = fileName.replace(/\.module\.[^/.]+$/, "");
+
+        return `${name}__${localName}`;
+      }
+
+      return localName;
     }
   },
 
@@ -128,6 +138,18 @@ const nextConfig = {
         }
       }
     });
+    
+    /**
+     * Resolves includes made with absolute paths to the root of the repository, 
+     * so we can do this:
+     * 
+     * `import { X } from "components/x"`
+     * 
+     * Instead of:
+     * 
+     * `import { X } from "../../components/x"`
+     */
+    config.resolve.modules.push(path.resolve("./"));
 
     return config;
   }

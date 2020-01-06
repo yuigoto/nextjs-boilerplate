@@ -13,9 +13,10 @@ require("dotenv").config();
 
 // IMPORTS
 // ----------------------------------------------------------------------
+const express = require("express");
 const next = require("next");
 const chalk = require("chalk");
-const compressio = require("compression");
+const compression = require("compression");
 
 // FLAGS
 // ----------------------------------------------------------------------
