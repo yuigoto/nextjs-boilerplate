@@ -1,0 +1,15 @@
+# IDE
+.idea/
+.vs/
+.vscode/
+.next/
+
+# PACKAGES
+node_modules/
+
+# BUILD PATH
+build/
+out/
+
+# FILES
+package-lock.json
