@@ -1,84 +1,75 @@
 /**
  * PubSub
  * ----------------------------------------------------------------------
- * Exemplo de um PubSub simples.
- * 
- * IMPORTANTE:
- * NÃO é um singleton, o que seria ideal.
+ * Simple pub/sub example.
  *
  * @since     0.0.1
  */
 const PubSub = () => {
   /**
-   * Guarda todos os tópicos e actions em grupos de chave/valor.
+   * Stores topics and actions in key/value pairs.
    * 
-   * Chaves são tópicos que armazenam arrays que guardam funções/métodos. Cada 
-   * uma destas funções deve aceitar um objeto contendo toda a informação a ser 
-   * publicada em um tópico.
+   * Keys are topics that store arrays containing actions. Each of these should 
+   * accept a value containing the information to be published under a topic.
    * 
-   * IMPORTANTE:
-   * Todas as funções sobre o mesmo tópico recebem o MESMO objeto, não as 
-   * modificando em cadeia.
+   * IMPORTANT:
+   * All functions under the same topic receive the SAME object, not modifying 
+   * them in any way.
    * 
    * @type {Object}
    */
   let items = {};
 
   /**
-   * Handle para o método `hasOwnProperty` em `items`.
+   * Handle for the `hasOwnProperty` method in `items`.
    * 
    * @type {Function}
    */
   let hasOwn = items.hasOwnProperty;
 
   /**
-   * Publica um update para um tópico em `items`.
+   * Publishes an update for a topic under `items`.
    * 
-   * O parâmetro `info` é enviado para TODOS os listeners deste tópico.
+   * The `payload` parameter is sent to ALL listeners under this topic.
    * 
    * @param {String} topic 
-   *    Nome do tópico a ser publicado
-   * @param {Object} info 
-   *    Informação a ser publicada para o tópico
+   *    Topic name
+   * @param {Object} payload 
+   *    Information to be published
    * @private 
    */
-  const _publish = (topic, info) => {
-    // Sem tópico, retorna
+  const _publish = (topic, payload) => {
     if (!hasOwn.call(items, topic)) return;
-
     items[topic].forEach(item => {
-      item(info !== undefined ? info : {});
+      item(payload !== undefined ? payload : {});
     })
   };
 
   /**
-   * Adiciona um listener/observador para um tópico, que verificará qualquer 
-   * alteração/publicação do mesmo.
+   * Adds a listener/observer for a topic.
    * 
    * @param {String} topic 
-   *    Nome do tópico para inscrever o observador
+   *    Topic name
    * @param {Function} listener 
-   *    Função para o listener, que receberá o objeto `info` quando o tópico 
-   *    sofrer uma publicação
+   *    Listener function, accepts the `payload` object each time a topic is 
+   *    updated/published
    * @returns {Object} 
-   *    Objeto contendo um único método para remover a inscrição do listener
+   *    An object containing a single method used to unsubscribe the listener
    */
   const _subscribe = (topic, listener) => {
-    // Sem tópico, cria um
+    // Create topic if non exists
     if (!hasOwn.call(items, topic)) items[topic] = [];
 
-    // Adiciona listener
+    // Add listener
     let _idx = items[topic].push(listener) - 1;
-
-    // Retorna objeto com método para cancelar assinatura do tópico
+    
     return {
       remove: () => {
         delete items[topic][_idx];
       }
     };
   };
-
-  // Retorna métodos
+  
   return {
     publish: _publish, 
     subscribe: _subscribe

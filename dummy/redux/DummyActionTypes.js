@@ -1,14 +1,13 @@
 /**
  * DummyActionTypes
  * ----------------------------------------------------------------------
- * Apresenta um meio de declarar objetos contendo tipos de ações para uso 
- * nas actions e reducers.
+ * Example on how I usually declare action strings.
  *
  * @since     0.0.1
  */
 
 /**
- * Grupo de ações de teste.
+ * Test action group.
  * 
  * @type {Object}
  */

@@ -3,26 +3,23 @@ import { connect } from "react-redux";
 import { withRouter } from "next/router";
 
 /**
- * [/nome/da/rota]
+ * [/name/of/route]
  * ----------------------------------------------------------------------
- * Arquivo de exemplo para declaração de componentes de página (em `/pages`).
- *
- * Declaramos para exemplo usos de `withRouter` e `connect`, mas não são
- * obrigatórios.
- *
+ * Example on how to declare a route under `/pages`.
+ * 
+ * Although we use `withRouter` and `connect`, both are not mandatory.
+ * 
  * @since   0.0.1
  */
 class Page extends Component {
-  // PROPRIEDADES
+  // PROPERTIES
   // --------------------------------------------------------------------
 
   /**
-   * Status de montagem do componente.
+   * Component mount status, optional.
    *
-   * Podemos utilizá-lo para definir se o componente está pronto, ou não para
-   * executar algo como atualizações de state.
-   *
-   * Seu uso, porém, é opcional.
+   * We can use it to see if the component's ready and mounted so we can execute 
+   * stuff, like state updates.
    *
    * @type {Boolean}
    * @private
@@ -30,7 +27,7 @@ class Page extends Component {
   _mounted = false;
 
   /**
-   * Objeto contendo pares chave/valor com valores para o state da aplicação.
+   * Stores component state.
    *
    * @type {Object}
    */
@@ -40,20 +37,17 @@ class Page extends Component {
   // --------------------------------------------------------------------
 
   /**
-   * Utilizado quando a página a ser renderizada necessita que dados sejam
-   * pré-carregados ao ser chamada.
+   * Used when the page needs preloaded data before rendering occurs.
+   * 
+   * If data missing from a component should block initial rendering, then 
+   * this method must be called to preload this data.
+   * 
+   * IMPORTANT:
+   * This method disables NextJS' static optimization, making the page fully 
+   * server-side, without static export.
    *
-   * Se a falta de algum dado deve bloquear a renderização inicial de página,
-   * este método que deve ser usado para carregá-los.
-   *
-   * OBS.:
-   * Este método desabilita a otimozação estática automática do Next.JS, fazendo
-   * com que toda página que o utilize seja renderizada do lado do servidor, sem
-   * export estático.
-   *
-   * IMPORTANTE:
-   * Esta método é EXCLUSIVO do Next.JS, caso esteja utilizando outro framework,
-   * apague isso!
+   * IMPORTANT:
+   * This method only works with NextJS!
    *
    * @param {*|Object} appContext
    * @returns {Promise<{pageProps: (*|Object)}>}
@@ -66,8 +60,7 @@ class Page extends Component {
     } = appContext;
 
     /**
-     * Armazena props a serem passadas para o construtor do componente, logo
-     * ao ser instanciada, do lado do servidor.
+     * Stores props to be sent to the component constructor on server-side.
      *
      * @type {*|Object}
      */
@@ -87,24 +80,23 @@ class Page extends Component {
   }
 
   /**
-   * Executado após um componente ser instanciado ou ao receber novas props.
+   * Executed after a component is instantiated and when receiving new props.
+   * 
+   * Returns an object to update the derived state or `null`, if no update 
+   * should be made when receiving new props.
+   * 
+   * Executed when the parent-component causes re-rendering of this one.
+   * 
+   * Calling `this.setState()` WON'T execute this method.
    *
-   * Retorna um objeto para atualizar o estado derivado ou `null`, se nenhuma
-   * alteração deve ser realizada ao receber novas props.
-   *
-   * Executado também quando um componente pai causa a re-renderização deste
-   * componente.
-   *
-   * Chamar `this.setState` NÃO executa este método.
-   *
-   * IMPORTANTE:
-   * - RECOMENDA-SE COMPARAR VALORES ANTERIORES E NOVOS!
-   * - ESTE MÉTODO É RARAMENTE USADO, recomendável utilizar soluções simples.
+   * IMPORTANT:
+   * - PLEASE, DO COMPARE PREVIOUS AND UPDATED VALUES;
+   * - RARELY USED, recommendation is to use simpler solutions.
    *
    * @param {*} props
-   *     Props atualizadas
+   *     Updated props
    * @param {*} state
-   *     State atualizado
+   *     Updated state
    * @returns {*}
    */
   static getDerivedStateFromProps (props, state) {
@@ -115,59 +107,57 @@ class Page extends Component {
   // --------------------------------------------------------------------
 
   /**
-   * Construtor.
+   * Constructor.
    *
-   * @param {*} props
-   *     Objeto contendo pares chave/valor com as propriedades e atributos a
-   *     serem passados ao componente
+   * @param {*} props 
+   *     Props to be passed to the component 
    */
   constructor (props) {
     super(props);
 
-    // Caso queira acessar as props solicitadas em `getInitialProps`, use:
+    // To acces the props in `getInitialProps`, uncomment:
     // const { pageProps } = props;
 
-    // Você pode fazer bootstrapping de state aqui também
+    // You can also bootstrap state here
     this.state = {};
 
     /*
-      Vinculando métodos ao `this` da instância (leia mais na descrição).
+      Binding methods to the instance scope (see more below).
      */
     this.metodoTesteA = this.metodoTesteA.bind(this);
   }
 
   /**
-   * Executado após a montagem do componente.
+   * Executed after component is mounted.
    */
   componentDidMount () {
     this._mounted = true;
   }
 
   /**
-   * Executado antes do componente ser desmontado e destruído.
+   * Executed before the component is unmounted and destroyed.
    */
   componentWillUnmount () {
     this._mounted = false;
   }
 
   /**
-   * Informa ao React se o output do componente deve ser afetado, ou não, por
-   * uma eventual mudança no contexto, props ou state.
-   *
-   * Retornando `false` ele previne que o componente seja renderizado novamente.
-   *
-   * Isto, porém, bloqueia a execução dos seguintes métodos:
+   * Tells React if the component's output should be affected by an eventual 
+   * change on the context, props or state.
+   * 
+   * By returning `false` this method prevents re-rendering, though it blocks 
+   * execution of the following methods:
    * - `componentWillUpdate`
    * - `componentDidUpdate`
    *
-   * Retorno padrão é `true`.
+   * Default is to return `true`.
    *
-   * @param {*} nextProps
-   *     Novos valores passados às props
+   * @param {*} nextProps 
+   *     New prop values
    * @param {*} nextState
-   *     Estado atualizado do componente
+   *     Updated state values 
    * @param {*} nextContext
-   *     Próximo status do contexto do componente
+   *     Next component context status
    * @returns {Boolean}
    */
   shouldComponentUpdate (nextProps, nextState, nextContext) {
@@ -175,62 +165,62 @@ class Page extends Component {
   }
 
   /**
-   * Executado logo após um update ocorrer nas props ou state, útil para operar
-   * no DOM e gerenciar requests de rede, por exemplo.
+   * Executed right after an update occurs in props or state, useful to operate 
+   * on the DOM and manage requests.
    *
-   * Não é executado caso `shouldComponentUpdate` retornar `false`.
+   * Not executed if `shouldComponentUpdate` returns `false`.
    *
-   * @param {*} prevProps
-   *     Props passadas anteriormente ao componente
+   * @param {*} prevProps 
+   *     Previous component props 
    * @param {*} prevState
-   *     Estado anterior do componente
-   * @param {*} snapshot
-   *     Snapshot contendo o status do DOM logo antes de ser atualizado, é o
-   *     valor retornado por `getSnapshotBeforeUpdate`
+   *     Previous component state 
+   * @param {*} snapshot 
+   *     Snapshot containing the DOM state right before it's updated, it's the 
+   *     value returned by `getSnapshotBeforeUpdate`.
    */
   componentDidUpdate (prevProps, prevState, snapshot) {
   }
 
   /**
-   * Transforma o componente em um "React error boundary": um componente que
-   * captura erros em qualquer filho na árvore.
+   * Turns the component into a "React error boundary": a component that catches 
+   * errors in every child on the tree.
    *
-   * Use para log de erros e exibição de um eventual fallback caso algo aconteça.
+   * Use it to log errors and show an eventual fallback.
    *
-   * IMPORTANTE:
-   * - NÃO use limites de erro para controle de fluxo de aplicação;
-   * - NÃO CAPTURA UM ERRO DENTRO DE SI MESMO;
+   * IMPORTANT:
+   * - DO NOT use this to control application flow;
+   * - DOES NOT CAPTURE AN ERROR ON `_self`.
    *
-   * @param {*} error
-   *     Erro lançado pelo React
-   * @param {*} errorInfo
-   *     Informações detalhadas do erro
+   * @param {*} error 
+   *     Error thrown by React
+   * @param {*} errorInfo 
+   *     Detailed error information 
    */
   componentDidCatch (error, errorInfo) {
   }
 
   /**
-   * Executado antes que o output mais recente de `render()` seja comitado
-   * (para a árvore do DOM, por exemplo). Isso habilita o componente à capturar
-   * algumas informações do DOM antes que ele seja potencialmente alterado.
+   * Executed before the most recent output from `render()` is commited (to the 
+   * DOM document, for example). This enables the component to capture some 
+   * information from the DOM object before it's potentially changed.
+   * 
+   * Values returned by this component are sent as the third parameter for
+   * the `componentDidUpdate()` method.
    *
-   * Qualquer valor retornado por este método será passado como terceiro
-   * parâmetro
-   *
-   * @param {*} prevProps
-   *     Props passadas anteriormente ao componente
+   * @param {*} prevProps 
+   *     Previous props 
    * @param {*} prevState
-   *     Estado anterior do componente
+   *     Previous state 
    */
   getSnapshotBeforeUpdate (prevProps, prevState) {
     return null;
   }
 
-  // MÉTODOS
+  // PUBLIC METHODS
   // --------------------------------------------------------------------
 
   /**
-   * Retorna o status de montagem do componente.
+   * Returns the component's mounting status.
    *
    * @returns {Boolean}
    */
@@ -239,11 +229,7 @@ class Page extends Component {
   };
 
   /**
-   * Este método encontra-se fora do lifecycle do React, portanto ele não está
-   * vinculado ao `this` da instância, pertencendo à outro escopo.
-   *
-   * Para evitar problemas como método não declarado ou valores não encontrados,
-   * realizamos o binding do método no construtor.
+   * Test method.
    *
    * @returns {Boolean}
    */
@@ -252,12 +238,7 @@ class Page extends Component {
   }
 
   /**
-   * Este método é declarado como um class field para evitar a necessidade de
-   * usar `bind(this)` e vincular o método ao escopo da instância.
-   *
-   * É a versão "otimizada" do método acima.
-   *
-   * P.s.: digo "otimizada", pois possui um memory footprint um pouco maior.
+   * Test method.
    *
    * @returns {Boolean}
    */
@@ -269,9 +250,7 @@ class Page extends Component {
   // --------------------------------------------------------------------
 
   /**
-   * Renderiza o componente.
-   *
-   * É o único método obrigatório na classe.
+   * Renders the component.
    *
    * @returns {*}
    */
@@ -284,7 +263,8 @@ class Page extends Component {
 // ----------------------------------------------------------------------
 
 /**
- * Mapeia o `state` da store do Redux para props do componente.
+ * Maps Redux's state to component props.
+ * 
  * @param {*|Object} state
  * @returns {*|Object}
  */
@@ -292,7 +272,7 @@ const mapStateToProps = state => ({
 });
 
 /**
- * Mapeia o uso de `dispatch()` do Redux para props do componente.
+ * Maps functions using Redux's `dispatch()` to component props.
  *
  * @param {*|Function} dispatch
  * @returns {*|Object}
@@ -307,11 +287,7 @@ Page = connect(
 
 // ----------------------------------------------------------------------
 
-/*
- * Envelopar o componente com `withRouter` ao ser exportado habilita o
- * componente a ser `router-aware`.
- *
- * Isto significa que ele receberá uma prop `router`, com informações sobre
- * query strings e outros itens relativos à localização, histórico e parâmetros.
+/**
+ * This enables the component to be router-aware in NextJS.
  */
 export default withRouter(Page);

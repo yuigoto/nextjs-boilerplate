@@ -1,24 +1,23 @@
 /**
  * DummyStore
  * ----------------------------------------------------------------------
- * Exemplo de como declarar uma store e aplicar reducers combinados.
- *
+ * Example on how to declare a store and apply reducers to it.
+ * 
  * @since     0.0.1
  */
+import { createStore } from "redux";
 
-// Libs
-import { createStore } from "redix";
-
-// Imports locais
 import DummyCombiner from "./DummyCombiner";
 
-// Define estado inicial
+/**
+ * Set the initial state.
+ */
 const initialState = {};
 
 /**
- * Store da aplicação, única fonte de dados e da verdade para tudo.
+ * Application store, the single source of truth for everything.
  * 
- * Ajoelhe-se diante de mim, aplicação! >:3
+ * Bow down before me, application!
  * 
  * @type {Store<any>}
  */
@@ -27,5 +26,4 @@ const Store = createStore(
   initialState
 );
 
-// ----------------------------------------------------------------------
 export default Store;

@@ -6,17 +6,15 @@ import { useRouter } from "next/router";
 /**
  * DummyFunctional
  * ----------------------------------------------------------------------
- * Exemplo de componente funcional.
+ * Functional component example.
  *
- * @param {Object} props
- *     Objeto contendo as props aceitas pelo componente, pode ser declarado
- *     apenas o objeto ou podemos utilizar a síntaxe de extração, como neste
- *     exemplo
+ * @param {Object} props 
+ *     Props to be passed to the component 
  * @returns {*}
  * @constructor
  */
 const DummyFunctional = ({id, className, children}) => {
-  // Roteamento fica acessível a partir disso aqui (opcional!)
+  // Router-aware component?
   const router = useRouter();
 
   return (
@@ -27,24 +25,19 @@ const DummyFunctional = ({id, className, children}) => {
 };
 
 /**
- * Utilizado quando a página a ser renderizada necessita que dados sejam
- * pré-carregados ao ser chamada.
- *
- * Se a falta de algum dado deve bloquear a renderização inicial de página,
- * este método que deve ser usado para carregá-los.
- *
- * OBS.:
- * Este método desabilita a otimozação estática automática do Next.JS, fazendo
- * com que toda página que o utilize seja renderizada do lado do servidor, sem
- * export estático.
- *
- * IMPORTANTE:
- * Esta método é EXCLUSIVO do Next.JS, caso esteja utilizando outro framework,
- * apague isso!
+ * Used when the page needs preloaded data before rendering occurs.
+ * 
+ * If data missing from a component should block initial rendering, then 
+ * this method must be called to preload this data.
+ * 
+ * IMPORTANT:
+ * This method disables NextJS' static optimization, making the page fully 
+ * server-side, without static export.
+ * 
+ * IMPORTANT:
+ * This method only works with NextJS!
  *
  * @param {*|Object} appContext
- *     Objeto contendo informações do conexto atual do componente a serem
- *     passadas para props
  * @returns {*|Object}
  */
 DummyFunctional.getInitialProps = (appContext) => {
@@ -58,13 +51,13 @@ DummyFunctional.getInitialProps = (appContext) => {
 // PROP TYPES
 // ----------------------------------------------------------------------
 
-// Define os valores padrões para props que necessitarem
+// Sets default prop values received
 DummyFunctional.defaultProps = {
   id: null,
   className: null
 };
 
-// Define o tipo de dados para cada prop aceita pelo componente
+// Sets prop value data types
 DummyFunctional.propTypes = {
   id: PropTypes.string,
   className: PropTypes.oneOfType([

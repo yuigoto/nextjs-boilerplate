@@ -1,40 +1,33 @@
 /**
  * DummyReducer
  * ----------------------------------------------------------------------
- * Exemplo de como declarar um reducer para redux.
+ * Example on how to declare reducers for Redux.
  *
  * @since     0.0.1
  */
-
-// Imports locais
 import { Test } from "./DummyActionTypes";
 
 /**
- * Função redutora, executa ações de acordo com o tipo de ação declarada ao 
- * despachá-las.
+ * Reducer function, executes actions according to the action type declared 
+ * when dispatching them.
  * 
- * Recebe o que é enviado por `dispatch()` nos componentes.
+ * Receives the value sent to `dispatch()` on components.
  * 
  * @param {*} state 
- *     Objeto contendo o estado original e/ou atual 
+ *     Initial/current state of the store
  * @param {*} action 
- *     Objeto contendo o tipo de ação, assim como os dados para despacho 
+ *     Object containing the action type and payload
  */
 export function DummyReducer (state = {}, action) {
   switch (action.type) {
-    // Ação de Exemplo 1
     case Test.TEST_ACTION_A:
       return Object.assign({}, state, {
         value: action.value
       });
-      
-    // Ação de Exemplo 2
     case Test.TEST_ACTION_B:
       return Object.assign({}, state, {
         value: action.value
       });
-    
-    // O padrão é retornar o estado original
     default:
       return state;
   }

@@ -1,14 +1,12 @@
 /**
  * Singleton
  * ----------------------------------------------------------------------
- * Declara definições básicas para classes do tipo singleton in JavaScript.
+ * Declares basic definitions for a singleton-type class in JavaScript, just 
+ * inherit from this class and you'll have singleton objects.
  * 
- * A propriedade `_instance` é herdada por classes-filha e é responsável por 
- * fornecer o comportamento de singleton.
- * 
- * IMPORTANTE:
- * A classe não pode ser instanciada por si só. Ao invés de usá-la diretamente, 
- * extenda da mesma.
+ * IMPORTANT:
+ * The class has a lock that throws an error whenever you instantiate it on 
+ * its own, without extending it.
  *
  * @since     0.0.1
  */
@@ -29,7 +27,7 @@ export class Singleton {
   // --------------------------------------------------------------------
 
   /**
-   * Construtor.
+   * Constructor.
    * 
    * @returns {this}
    */
@@ -37,7 +35,7 @@ export class Singleton {
     let constructorName = this.constructor.name;
     if (this.constructor.name === "Singleton") {
       throw new TypeError(
-        `Classe ${constructorName} não pode ser instanciada por si só.`
+        `Class '${constructorName}' cannot be instantiated on its own.`
       );
     }
 

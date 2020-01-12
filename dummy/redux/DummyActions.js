@@ -1,50 +1,46 @@
 /**
  * DummyActions
  * ----------------------------------------------------------------------
- * Exemplo de como declarar actions (métodos que disparam dados para os 
- * reducers) para Redux.
+ * Example on how I usually declare my actions for Redux.
  *
  * @since     0.0.1
  */
 
-// Imports locais
 import { Test } from "./DummyActionTypes";
 
 /**
- * Armazena actions.
+ * Stores all actions.
  * 
  * @type {Object}
  */
 const Actions = {};
 
 /**
- * Action de teste usando arrow function.
+ * Test action using arrow function.
  * 
  * @param {*} value 
- *     Valor a ser despachado para a action
+ *     Value to be dispatched
  * @returns {*}
  */
 Actions.testActionA = (value) => {
   return {
     value: value,
-    // Type é um campo obrigatório em TODAS as actions
+    // TYPE IS REQUIRED IN ALL ACTIONS!
     type: Test.TEST_ACTION_A
   };
 };
 
 /**
- * Action de teste usando arrow function com retorno literal (note ausência 
- * de return e envelopamento de resposta com parênteses).
+ * Test action using arrow function using literal return.
  * 
  * @param {*} value 
- *     Valor a ser despachado para a action
+ *     Value to be dispatched
  * @returns {*}
  */
 Actions.testActionB = (value) => ({
   value: value,
-  // Type é um campo obrigatório em TODAS as actions
+  // TYPE IS REQUIRED IN ALL ACTIONS!
   type: Test.TEST_ACTION_B
 });
 
-// ----------------------------------------------------------------------
 export default Actions;
