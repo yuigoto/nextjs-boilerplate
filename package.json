@@ -1,6 +1,6 @@
 {
   "name": "nextjs-boilerplate",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Boilerplate for projects using React/Next.JS, with a custom server using Express.",
   "main": "server.js",
   "sideEffects": false,
