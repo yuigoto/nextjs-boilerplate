@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/yuigoto/nextjs-boilerplate#readme",
   "dependencies": {
+    "@b4a/rosin": "^0.1.5",
     "@fortawesome/fontawesome-free": "^5.12.0",
     "@mdx-js/loader": "^1.5.3",
     "@next/mdx": "^9.1.7",
