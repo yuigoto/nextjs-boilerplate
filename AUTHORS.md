@@ -1,12 +1,5 @@
-Authors
-=======
+# NextJS Boilerplate | Authors
 
-    Alphabetical order, by first name.
-    Format: Name (E-mail) - _Role_
+    - **AuthorName** (emailAddress) - Location - _Role_
 
-* **Fabio Y. Goto** (lab@yuiti.dev) - _Front End Developer_
-
-Contributors
-------------
-
-_None yet!_
+- **Fabio Y. Goto** (lab@yuiti.dev) - São Paulo, BR - _Developer_
