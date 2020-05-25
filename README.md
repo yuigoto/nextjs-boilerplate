@@ -2,17 +2,18 @@
 
 > An opinionated React/Next.JS boilerplate, made with some features I often use in projects out there.
 
+----------------------------------------------------------------------
+
 ### Features
 
-Not all features are needed, depending on the project, so you may delete whatever you don't need for your project.
+> Not all features are needed, depending on the project, so you may delete whatever you don't need for your project.
+> 
+> _Still very WIP!_
 
 - Custom SSR routing with Express
 - CSS modules
 - SASS/SCSS transpiling/import
-- MDX support
-- Redux with devtools extension support
-
-_Still very WIP!_
+- `react-frontmatter-loader`
 
 ----------------------------------------------------------------------
 
@@ -45,13 +46,11 @@ _Still very WIP!_
 - **`components/`**: components that render something should be placed here
 - **`core/`**: code files that don't render anything should be placed here
 - **`dummy/`**: dummy files used for reference and easy copy/paste (because I'm lazy to search for information)
-  - _I know, docs are in portuguese since I wrote'em for myself, will translate these._
 - **`pages/`**: page/view components should be placed in this folder, it also defines the routing used by Next.JS
   - **`api/`**: we're placing something here for reference, in case you need API endpoints from your project too
 - **`public/`**: publicly available files, which aren't imported, but directly accessed should be placed in this folder here, they're served from root
 - **`routes/`**: route files for SSR should be put in here
 - **`scss/`**: put your style in here
-- **`state/`**: everything Redux should go in here
 - **`.env`**: environment variables file, use it to set flags and other things you don't want to share on repositories, like access keys to services and APIs (put it on `.gitignore` too!)
 - **`jsconfig.json`**: for now, we're mostly using it so VS Code (and other IDEs) resolve absolute paths as coming from the repository root so we don't have to use `../`
 - **`next.config.js`**: NextJS custom settings file, can be used for extensions and Webpack customization

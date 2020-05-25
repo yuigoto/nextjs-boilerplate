@@ -1,22 +1,24 @@
+// Imports
+import { combineReducers } from "redux";
+
+// Imports Locais
+// Local Imports
+import { DummyReducer } from "./DummyReducer";
+
 /**
  * DummyCombiner
  * ----------------------------------------------------------------------
- * Example on how I usually combine reducers.
+ * Combina reducers mapeando-os a objetos da store.
  *
- * @since     0.0.1
+ * Combines reducers, mapping them to the store's objects.
+ *
+ * @type {Reducer<CombinedState<*>>}
+ * @since 0.0.1
  */
-
-import { combineReducers } from "redux";
-
-import DummyReducer from "./DummyReducer";
-
-/**
- * Combines all reducers.
- * 
- * @type {Object}
- */
-const Reducers = combineReducers({
+const DummyCombiner = combineReducers({
   test: DummyReducer
 });
 
-export default Reducers;
+// ----------------------------------------------------------------------
+
+export { DummyCombiner };
