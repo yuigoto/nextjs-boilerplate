@@ -1,166 +1,173 @@
 /**
- * next.config
+ * Config
  * ----------------------------------------------------------------------
- * Configuration file for Next, Next modules and Webpack.
- * 
- * @author    Fabio Y. Goto <lab@yuiti.dev>
+ * Opinionated config file.
+ *
  * @since     0.0.1
  */
 require("dotenv").config();
 
-// IMPORTS
-// ----------------------------------------------------------------------
-const path = require("path");
-const withCss = require("@zeit/next-css");
-const withSass = require("@zeit/next-sass");
-const withMdx = require("@next/mdx")({
-  extension: /\.mdx?$/
-});
-
-// CONFIGURATION
-// ----------------------------------------------------------------------
+const path        = require("path");
 
 /**
- * Use this object to define settings for loaders, plugins and Webpack.
- * 
- * @type {Object}
+ * Configuration object.
+ *
+ * @type {*}
  */
-const nextConfig = {
-  /**
-   * If we're using, or not, CSS modules.
-   * 
-   * @type {Boolean}
-   */
-  cssModules: true,
+const nextConfig  = {};
 
-  /**
-   * Settings for the Webpack CSS loader.
-   *
-   * The `getLocalIdent` function defines hashes/custom names when you're 
-   * using CSS modules in React, so they won't clash with any other class.
-   * 
-   * @type {Object}
-   */
-  cssLoaderOptions: {
-    importLoaders: 1,
-    getLocalIdent: (loaderContext, _, localName) => {
-      const fileName = path.basename(loaderContext.resourcePath);
+/**
+ * Passes environment variables to the application.
+ *
+ * @type {*}
+ */
+nextConfig.env = {};
 
-      if (/\.module\.css$/.test(fileName)) {
-        const name = fileName.replace(/\.module\.[^/.]+$/, "");
+/**
+ * Makes an `index.html` for every statically exported page, so you can
+ * access it from `/[page-name]`, instead of `/[page-name].html`.
+ *
+ * @type {boolean}
+ */
+nextConfig.exportTrailingSlash = true;
 
-        return `${name}__${localName}`;
-      }
-
-      return localName;
-    }
-  },
-
-  /**
-   * Settings for the Webpack SASS loader.
-   * 
-   * @type {Object}
-   */
-  sassLoaderOptions: {
-    precision: 6,
-    outputStyle: "compressed",
-    sourceComments: false
-  },
-
-  /**
-   * Sets what can be considered page/component.
-   * 
-   * @type {Array}
-   */
-  pageExtensions: [
-    "js", "jsx", "md", "mdx"
-  ],
-
-  /**
-   * Use this to send environment variables to the React application.
-   * 
-   * @type {Object}
-   */
-  env: {
-    HOST: process.env.HOST,
-    ENV: process.env.NODE_ENV,
-    PORT: process.env.PORT
-  },
-
-  /**
-   * Webpack settings function.
-   *
-   * Use it to override/apply settings for the bundler.
-   * 
-   * @param {Object} config 
-   *     Configuration object to change/apply modifications
-   * @return {Object}
-   */
-  webpack: (config) => {
-    // We're accepting `JSX` (maybe TS and TSX in the future?)
-    config.resolve.extensions.push(".jsx");
-
-    // FILE LOADER : MEDIA
-    config.module.rules.push({
-      test: /\.(wav|mp3|mp4|avi|mpg|mpeg|mov|ogg)$/,
-      use: {
-        loader: "file-loader",
-        options: {
-          esModule: false,
-          outputPath: "static/media/",
-          publicPath: "/_next/static/media",
-        }
-      }
-    });
-
-    // FILE LOADER : IMAGES
-    config.module.rules.push({
-      test: /\.(png|jpg|jpeg|gif)$/,
-      use: {
-        loader: "file-loader",
-        options: {
-          esModule: false,
-          outputPath: "static/img/",
-          publicPath: "/_next/static/img",
-        }
-      }
-    })
-
-    // FILE LOADER : OTHER FILE TYPES
-    config.module.rules.push({
-      test: /\.(pdf|doc|docx|xls|xlsx|ppt|pptx|eot|otf|ttf|woff|woff2|svg)$/,
-      use: {
-        loader: "file-loader",
-        options: {
-          esModule: false,
-          outputPath: "static/files/",
-          publicPath: "/_next/static/files",
-        }
-      }
-    });
-    
-    /**
-     * Resolves includes made with absolute paths to the root of the repository, 
-     * so we can do this:
-     * 
-     * `import { X } from "components/x"`
-     * 
-     * Instead of:
-     * 
-     * `import { X } from "../../components/x"`
-     */
-    config.resolve.modules.push(path.resolve("./"));
-
-    return config;
+/**
+ * Static export path mappings.
+ *
+ * @param defaultPathMap
+ * @param dev
+ * @param dir
+ * @param outDir
+ * @param distDir
+ * @param buildId
+ * @returns {Promise<*>}
+ */
+nextConfig.exportPathMap = async (
+  defaultPathMap,
+  {
+    dev,
+    dir,
+    outDir,
+    distDir,
+    buildId
   }
+) => {
+  return {
+    "/": { page: "/" }
+  };
 };
 
-// EXPORT
+/**
+ * SASS/SCSS compiler options object.
+ *
+ * @type {*}
+ */
+nextConfig.sassOptions = {
+  includePaths: [path.join(__dirname, "scss")],
+  precision: 8,
+  outputStyle: "compressed",
+  sourceComments: false
+};
+
+/**
+ * Sets which file extensions to be considered as pages.
+ *
+ * @type {string[]}
+ */
+nextConfig.pageExtensions = [
+  "js",
+  "jsx"
+];
+
+/**
+ * Webpack configuration object.
+ *
+ * @param {*} config
+ *     Configuration object in which additional options will be set
+ * @returns {*}
+ */
+nextConfig.webpack = (config) => {
+  // Allow JSX files
+  config.resolve.extensions.push(".jsx");
+
+  // FILE LOADER
+  // --------------------------------------------------------------------
+
+  // Media
+  config.module.rules.push({
+    test: /\.(wav|mp3|mp4|avi|mpg|mpeg|mov|ogg)$/,
+    use: {
+      loader: "file-loader",
+      options: {
+        esModule: false,
+        outputPath: "static/media",
+        publicPath: "/_next/static/media"
+      }
+    }
+  });
+
+  // Images
+  config.module.rules.push({
+    test: /\.(png|jpg|jpeg|gif)$/,
+    use: {
+      loader: "file-loader",
+      options: {
+        esModule: false,
+        outputPath: "static/img",
+        publicPath: "/_next/static/img"
+      }
+    }
+  });
+
+  // Documents
+  config.module.rules.push({
+    test: /\.(pdf|doc|docx|xls|xlsx|ppt|pptx)$/,
+    use: {
+      loader: "file-loader",
+      options: {
+        esModule: false,
+        outputPath: "static/data",
+        publicPath: "/_next/static/data"
+      }
+    }
+  });
+
+  // Fonts
+  config.module.rules.push({
+    test: /\.(eot|otf|ttf|woff|woff2|svg)$/,
+    use: {
+      loader: "file-loader",
+      options: {
+        esModule: false,
+        outputPath: "static/fonts",
+        publicPath: "/_next/static/fonts"
+      }
+    }
+  });
+  
+  // --------------------------------------------------------------------
+
+  config.module.rules.push(
+    {
+      test: /\.md$/,
+      loader: "frontmatter-markdown-loader",
+      options: {
+        mode: ["react-component"]
+      }
+    }
+  );
+
+  /**
+   * Resolves includes made with an absolute path, considering the root of 
+   * the project folder.
+   */
+  config.resolve.modules.push(
+    path.resolve("./")
+  );
+
+  return config;
+};
+
 // ----------------------------------------------------------------------
-module.exports = withMdx(
-  withCss(
-    withSass(
-      nextConfig
-    )
-  )
-);
+
+module.exports = nextConfig;

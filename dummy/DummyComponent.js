@@ -1,259 +1,369 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import classnames from "classnames";
+import { connect } from "react-redux";
 
 /**
  * DummyComponent
  * ----------------------------------------------------------------------
- * Example component.
- *
- * @since   0.0.1
+ * Exemplo de componente.
+ * Component example.
+ * 
+ * @since 0.0.1
  */
 class DummyComponent extends Component {
+  // PROPRIEDADES
   // PROPERTIES
   // --------------------------------------------------------------------
-
+  
   /**
-   * Component mount status, optional.
-   *
-   * We can use it to see if the component's ready and mounted so we can execute 
-   * stuff, like state updates.
-   *
-   * @type {Boolean}
+   * Status de montagem do componente, é opcional.
+   * 
+   * Component mounting status, using it is optional.
+   * 
+   * @type {boolean}
    * @private
    */
   _mounted = false;
-
+  
   /**
-   * Stores component state.
-   *
+   * Estado do componente.
+   * 
+   * Component state.
+   * 
    * @type {Object}
    */
   state = {};
-
+  
   // MÉTODOS ESTÁTICOS
+  // STATIC METHODS
   // --------------------------------------------------------------------
-
-  // MÉTODOS ESTÁTICOS
-  // --------------------------------------------------------------------
-
+  
   /**
-   * Executed after a component is instantiated and when receiving new props.
+   * Chamado quando um componente é instanciado ou recebe novas props.
+   * 
+   * Retorna um objeto para atualizar o state derivado ou `null`, se nenhuma 
+   * alteração deve ser realizada ao receber novas props.
+   * 
+   * Também é executado quando um componente pai causa a re-renderização.
+   * 
+   * Chamar `this.setState` não executa este método.
+   * 
+   * IMPORTANTE:
+   * - COMPARE VALORES ANTES DE REALIZAR QUALQUER UPDATE
+   * - ESTE MÉTODO É RARAMENTE USADO, RECOMENDA-SE SOLUÇÕES MAIS SIMPLES
+   * 
+   * Called when a component is instantiated or receives new props.
    * 
    * Returns an object to update the derived state or `null`, if no update 
-   * should be made when receiving new props.
+   * should happen when receiving new props.
    * 
-   * Executed when the parent-component causes re-rendering of this one.
+   * Also executed when a parent component causes re-rendering.
    * 
-   * Calling `this.setState()` WON'T execute this method.
-   *
+   * Calling `this.setState` won't execute this method.
+   * 
    * IMPORTANT:
-   * - PLEASE, DO COMPARE PREVIOUS AND UPDATED VALUES;
-   * - RARELY USED, recommendation is to use simpler solutions.
-   *
-   * @param {*} props
-   *     Updated props
-   * @param {*} state
-   *     Updated state
+   * - DO COMPARE VALUES BEFORE MAKING ANY UPDATE
+   * - THIS METHOD IS RARELY USED, TRY TO USE SIMPLER SOLUTIONS
+   * 
+   * @param {*} props 
+   *     Props atualizadas
+   *     Updated props 
+   * @param {*} state 
+   *     State atualizado 
+   *     Updated state 
    * @returns {*}
    */
   static getDerivedStateFromProps (props, state) {
     return null;
   }
-
+  
   // LIFECYCLE
   // --------------------------------------------------------------------
-
+  
   /**
+   * Construtor.
    * Constructor.
-   *
+   * 
    * @param {*} props 
-   *     Props to be passed to the component 
+   *     Objeto com pares chave/valor, contendo props e atributos
+   *     Object with key/value pairs, containing props and attributes 
    */
   constructor (props) {
     super(props);
-
-    // To acces the props in `getInitialProps`, uncomment:
-    // const { pageProps } = props;
-
-    // You can also bootstrap state here
+    
+    // Pré-inicialize o state aqui
+    // Bootstrap your state here
     this.state = {};
-
-    /*
-      Binding methods to the instance scope (see more below).
-     */
+    
+    // Vinculando métodos
+    // Binding methods
+    this.componentIsMounted = this.componentIsMounted.bind(this);
     this.metodoTesteA = this.metodoTesteA.bind(this);
   }
-
+  
   /**
-   * Executed after component is mounted.
+   * Executado após a montagem do componente.
+   * 
+   * Executed after the component is mounted.
    */
   componentDidMount () {
     this._mounted = true;
   }
-
+  
   /**
+   * Executado antes do componente ser desmontado e destruído.
+   * 
    * Executed before the component is unmounted and destroyed.
    */
   componentWillUnmount () {
     this._mounted = false;
   }
-
+  
   /**
-   * Tells React if the component's output should be affected by an eventual 
-   * change on the context, props or state.
+   * Informa ao React se o output do componente deve ser afetado, ou não, por
+   * uma eventual mudança no contexto, props ou state.
+   *
+   * Retornando `false` ele previne que o componente seja renderizado novamente, 
+   * bloqueando a execução de `componentWillUpdate` e `componentDidUpdate`.
+   *
+   * Retorno padrão é `true`.
    * 
-   * By returning `false` this method prevents re-rendering, though it blocks 
-   * execution of the following methods:
-   * - `componentWillUpdate`
-   * - `componentDidUpdate`
-   *
-   * Default is to return `true`.
-   *
+   * Tell React if the output of the component should be affected, or not, by 
+   * an eventual change in the context, props or state.
+   * 
+   * By returning `false` it prevents the component from re-rendering, though 
+   * it blocks execution of `componentWillUpdate` and `componentDidUpdate`.
+   * 
+   * Default return is `true`.
+   * 
    * @param {*} nextProps 
-   *     New prop values
-   * @param {*} nextState
-   *     Updated state values 
-   * @param {*} nextContext
+   *     Novos valores passados às props 
+   *     New and updated prop values 
+   * @param {*} nextState 
+   *     Estado atualizado do componente 
+   *     Updated component state 
+   * @param {*} nextContext 
+   *     Próximo status do contexto do componente 
    *     Next component context status
-   * @returns {Boolean}
+   * @returns {boolean}
    */
   shouldComponentUpdate (nextProps, nextState, nextContext) {
     return true;
   }
 
   /**
-   * Executed right after an update occurs in props or state, useful to operate 
-   * on the DOM and manage requests.
+   * Executado logo após um update ocorrer nas props ou state, útil para operar
+   * no DOM e gerenciar requests de rede, por exemplo.
    *
-   * Not executed if `shouldComponentUpdate` returns `false`.
+   * Não é executado caso `shouldComponentUpdate` retornar `false`.
+   * 
+   * Invoked after the update occurs, useful to operate on the DOM and manage
+   * network requests.
    *
-   * @param {*} prevProps 
-   *     Previous component props 
+   * Doesn't trigger if `shouldComponentUpdate` returns `false`.
+   *
+   * @param {*} prevProps
+   *     Props passadas anteriormente ao componente
+   *     Previously used props
    * @param {*} prevState
-   *     Previous component state 
-   * @param {*} snapshot 
-   *     Snapshot containing the DOM state right before it's updated, it's the 
-   *     value returned by `getSnapshotBeforeUpdate`.
+   *     Estado anterior do componente
+   *     Previous component state
+   * @param {*} snapshot
+   *     Snapshot contendo o status do DOM logo antes de ser atualizado, é o
+   *     valor retornado por `getSnapshotBeforeUpdate`
+   *     Snapshot containing the DOM's status before updating, it's the value 
+   *     returned by `getSnapshotBeforeUpdate`
    */
   componentDidUpdate (prevProps, prevState, snapshot) {
   }
 
   /**
-   * Turns the component into a "React error boundary": a component that catches 
-   * errors in every child on the tree.
+   * Transforma o componente em um "React error boundary": um componente que
+   * captura erros em qualquer filho na árvore.
    *
-   * Use it to log errors and show an eventual fallback.
+   * Use para log de erros e exibição de um eventual fallback caso algo aconteça.
+   *
+   * IMPORTANTE:
+   * - NÃO use limites de erro para controle de fluxo de aplicação
+   * - NÃO CAPTURA UM ERRO DENTRO DE SI MESMO
+   * 
+   * Transforms the component into a React error boundary: a component that
+   * catches errors anywhere in their child component tree.
+   *
+   * Use it to log errors and display a fallback component tree.
    *
    * IMPORTANT:
-   * - DO NOT use this to control application flow;
-   * - DOES NOT CAPTURE AN ERROR ON `_self`.
+   * - DO NOT use error boundaries to control application flow
+   * - DOES NOT catch an error within itself
    *
-   * @param {*} error 
+   * @param {*} error
+   *     Erro lançado pelo React
    *     Error thrown by React
-   * @param {*} errorInfo 
+   * @param {*} errorInfo
+   *     Informações detalhadas do erro
    *     Detailed error information 
    */
   componentDidCatch (error, errorInfo) {
   }
 
   /**
-   * Executed before the most recent output from `render()` is commited (to the 
-   * DOM document, for example). This enables the component to capture some 
-   * information from the DOM object before it's potentially changed.
-   * 
-   * Values returned by this component are sent as the third parameter for
-   * the `componentDidUpdate()` method.
+   * Executado antes que o output mais recente de `render()` seja comitado
+   * (para a árvore do DOM, por exemplo). Isso habilita o componente à capturar
+   * algumas informações do DOM antes que ele seja potencialmente alterado.
    *
-   * @param {*} prevProps 
-   *     Previous props 
+   * Qualquer valor retornado por este método será passado como terceiro
+   * parâmetro em `componentDidUpdate`.
+   * 
+   * Retorna o snapshot ou `null`.
+   * 
+   * Invoked before the most recently rendered output is commited (to the DOM,
+   * for example). It enables the component to catch some info from the DOM
+   * before it is potentially changed.
+   *
+   * Any value returned by this method will be passed as a parameter to
+   * `componentDidUpdate`.
+   *
+   * Returns a snapshot value or `null`.
+   *
+   * @param {*} prevProps
+   *     Props passadas anteriormente ao componente
+   *     Previously used props
    * @param {*} prevState
-   *     Previous state 
+   *     Estado anterior do componente
+   *     Previous component state
    */
   getSnapshotBeforeUpdate (prevProps, prevState) {
     return null;
   }
-
-  // PUBLIC METHODS
+  
+  // MÉTODOS
+  // METHODS
   // --------------------------------------------------------------------
-
+  
   /**
+   * Retorna o status de montagem do componente.
+   * 
    * Returns the component's mounting status.
-   *
-   * @returns {Boolean}
+   * 
+   * @returns {boolean}
    */
-  componentIsMounted = () => {
+  componentIsMounted () {
     return this._mounted;
-  };
-
+  }
+  
   /**
-   * Test method.
-   *
-   * @returns {Boolean}
+   * Método da classe.
+   * 
+   * Por culpa do JavaScript, é necessário utilizar `bind()` para vinculá-lo 
+   * ao escopo do `this` da classe. Caso contrário o `this` disponível neste 
+   * método será o global.
+   * 
+   * Class method.
+   * 
+   * Because how JavaScript handles `this`, it's necessary to use `bind()` 
+   * to bind it to the `this` in the class' scope. If not done, the `this` 
+   * available inside the method will be the global one.
+   * 
+   * @returns {boolean}
    */
   metodoTesteA () {
     return true;
   }
-
+  
   /**
-   * Test method.
-   *
-   * @returns {Boolean}
+   * Método declarado como uma propriedade, para evitar a necessidade de 
+   * utilizar `bind()` para vincular o escopo.
+   * 
+   * Existe um downside de usar isso, que é um _memory footprint_  maior.
+   * 
+   * Method declared as a property, to aviod using `bind()` to bind it to 
+   * the class' scope.
+   * 
+   * The downside of it is that it leaves a larger _memory footprint_.
+   * 
+   * @returns {boolean}
    */
   metodoTesteB = () => {
     return false;
   };
-
-  // OUTPUT
+  
   // --------------------------------------------------------------------
-
+  
   /**
-   * Renders the component.
-   *
+   * Renderiza o componente, sendo o único método realmente obrigatório.
+   * 
+   * Renders the component, it's the only required method for a component.
+   * 
    * @returns {*}
    */
   render () {
-    return null;
+    const { props } = this;
+    
+    let _attr = {
+      className: classnames(props.className)
+    };
+    if (props.id) _attr.id = props.id;
+    
+    return (
+      <>
+        <div {..._attr}>
+          {props.children}
+        </div>
+      </>
+    );
   }
 }
 
 // PROP TYPES
 // ----------------------------------------------------------------------
 
-// Sets default prop values received
+// Define o valor padrão para props que necessitem
+// Defines default values for props that require
 DummyComponent.defaultProps = {
   id: null,
   className: null
 };
 
-// Sets prop value data types
+
+// Define o tipo de dados para cada prop aceita
+// Defines the data type for each accepted prop
 DummyComponent.propTypes = {
   id: PropTypes.string,
   className: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string)
-  ])
+  ]),
+  children: PropTypes.node
 };
 
 // REDUX
 // ----------------------------------------------------------------------
 
 /**
- * Maps Redux's state to component props.
- * 
+ * Mapeia o `state` do Redux para props do componente.
+ *
+ * Maps Redux's `state` to component props.
+ *
  * @param {*|Object} state
+ *     Objeto contendo o state da aplicação
+ *     Object containing the application state
  * @returns {*|Object}
  */
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
 });
 
 /**
- * Maps functions using Redux's `dispatch()` to component props.
+ * Mapeia a função `dispatch()`, do Redux, para props do componente.
+ *
+ * Map's the `dispatch()` function, from Redux, to component props.
  *
  * @param {*|Function} dispatch
+ *     Callable que despacha actions para a store do Redux
+ *     Callable that dispatches actions for Redux's store
  * @returns {*|Object}
  */
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
 });
 
 DummyComponent = connect(
@@ -263,4 +373,4 @@ DummyComponent = connect(
 
 // ----------------------------------------------------------------------
 
-export default DummyComponent;
+export { DummyComponent };

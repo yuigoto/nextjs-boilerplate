@@ -1,46 +1,70 @@
+// Imports Locais
+// Local Imports
+import { 
+  TEST_ACTION_A,
+  TEST_ACTION_B 
+ } from "./DummyTypes";
+
 /**
  * DummyActions
  * ----------------------------------------------------------------------
- * Example on how I usually declare my actions for Redux.
- *
- * @since     0.0.1
+ * Exporta funções para envio e manipulação de dados na store.
+ * 
+ * Exports functions for updating and manipulating the store data.
+ * 
+ * @since 0.0.1
  */
 
-import { Test } from "./DummyActionTypes";
+// THUNKS
+// ----------------------------------------------------------------------
 
 /**
- * Stores all actions.
+ * Thunk de teste para a store.
  * 
- * @type {Object}
- */
-const Actions = {};
-
-/**
- * Test action using arrow function.
+ * Test thunk for the store.
  * 
- * @param {*} value 
- *     Value to be dispatched
- * @returns {*}
+ * @returns {function}
  */
-Actions.testActionA = (value) => {
-  return {
-    value: value,
-    // TYPE IS REQUIRED IN ALL ACTIONS!
-    type: Test.TEST_ACTION_A
+export const TestThunk = () => {
+  return (dispatch) => {
+    setTimeout(
+      () => {
+        dispatch(TestActionA({ hello: "world" }));
+      },
+      200
+    )
   };
 };
 
-/**
- * Test action using arrow function using literal return.
- * 
- * @param {*} value 
- *     Value to be dispatched
- * @returns {*}
- */
-Actions.testActionB = (value) => ({
-  value: value,
-  // TYPE IS REQUIRED IN ALL ACTIONS!
-  type: Test.TEST_ACTION_B
-});
+// ACTION
+// ----------------------------------------------------------------------
 
-export default Actions;
+/**
+ * Action to dispatch.
+ * 
+ * @param {*|Object} payload 
+ *     Dados para envio na store
+ *     Data to be sent to the store 
+ * @returns {*|Object}
+ */
+export const TestActionA = (payload) => {
+  return {
+    type: TEST_ACTION_A,
+    payload: payload
+  }
+};
+
+/**
+ * Action to dispatch.
+ * 
+ * @param {*|Object} payload 
+ *     Dados para envio na store
+ *     Data to be sent to the store 
+ * @returns {*|Object}
+ */
+export const TestActionB = (payload) => {
+  return {
+    type: TEST_ACTION_B,
+    payload: payload
+  }
+};

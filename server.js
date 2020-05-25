@@ -1,38 +1,37 @@
 /**
  * server
  * ----------------------------------------------------------------------
- * Custom, Express-based, server for our application.
+ * Custom, Express-based, server for the application.
  *
- * Handles some SSR routes with Express and falls back to the main Next 
+ * Handles some SSR routes with Express and falls back to the main Next
  * application, so you don't have to handle all routes with Express.
- * 
- * @author    Fabio Y. Goto <lab@yuiti.dev>
- * @since     0.0.1
+ *
+ * @since 0.0.1
  */
 require("dotenv").config();
 
-// IMPORTS
 // ----------------------------------------------------------------------
 const express = require("express");
 const next = require("next");
 const chalk = require("chalk");
 const compression = require("compression");
 
-// FLAGS
 // ----------------------------------------------------------------------
 const dev = (process.env.NODE_ENV === "production");
-const port = process.env.PORT || 3456;
+const port = process.env.PORT || 3000;
 
-// HANDLERS
 // ----------------------------------------------------------------------
 const app = next({dev});
 const handle = app.getRequestHandler();
 
-// UTILITIES
 // ----------------------------------------------------------------------
 const log = console.log;
-const routes =  require("./routes");
+const routes = require("./routes");
 
+/**
+ * Handles server execution, routing and passes down everything else to
+ * Next.JS.
+ */
 const executionHandler = () => {
   const server = express();
 
@@ -50,9 +49,7 @@ const executionHandler = () => {
   // Execute
   server.listen(port, (err) => {
     if (err) throw err;
-
-    let url = process.env.HOST;
-
+    let url = process.env.HOST || "localhost";
     log(
       chalk.cyan(`> Executando em http://${url}:${port}`)
     );
@@ -61,8 +58,8 @@ const executionHandler = () => {
 
 /**
  * Catches an exception, logs into the console then exits the application.
- * 
- * @param {Exception} exception 
+ *
+ * @param {Exception} exception
  *     Exception to handle
  */
 const exceptionHandler = (exception) => {
@@ -70,8 +67,8 @@ const exceptionHandler = (exception) => {
   process.exit(1);
 };
 
-// EXECUTION
 // ----------------------------------------------------------------------
+
 app
   .prepare()
   .then(executionHandler)
